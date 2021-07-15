@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef } from "react";
 import LottieView from "lottie-react-native";
 import {
@@ -7,6 +6,8 @@ import {
   View,
   TextInput,
   KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -28,35 +29,42 @@ export function Signin({ navigation }) {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <Text style={styles.title}>Work shift</Text>
-      <LottieView
-        ref={animation}
-        style={{
-          width: 400,
-          height: 250,
-          backgroundColor: "#000000",
-          alignSelf: "center",
-        }}
-        source={require("../animations/login.json")}
-      />
-      <TextInput placeholder="E-mail" style={styles.input} />
-      <TextInput placeholder="Password" style={styles.input} secureTextEntry />
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Sign in</Text>
-      </TouchableOpacity>
-      <View
-        style={{
-          flexDirection: "row",
-          marginTop: 40,
-          alignSelf: "center",
-        }}
-      >
-        <Text style={styles.signupText}>Don't you have an account?</Text>
-        <TouchableOpacity onPress={onNavigateSignup}>
-          <Text style={styles.signup}>Sign up</Text>
-        </TouchableOpacity>
-      </View>
-      <StatusBar style="auto" />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <Text style={styles.title}>Work shift</Text>
+          <LottieView
+            ref={animation}
+            style={{
+              width: 400,
+              height: 250,
+              backgroundColor: "#000000",
+              alignSelf: "center",
+            }}
+            source={require("../animations/login.json")}
+          />
+          <TextInput placeholder="E-mail" style={styles.input} />
+          <TextInput
+            placeholder="Password"
+            style={styles.input}
+            secureTextEntry
+          />
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Sign in</Text>
+          </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: "row",
+              marginTop: 40,
+              alignSelf: "center",
+            }}
+          >
+            <Text style={styles.signupText}>Don't you have an account?</Text>
+            <TouchableOpacity onPress={onNavigateSignup}>
+              <Text style={styles.signup}>Sign up</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 }

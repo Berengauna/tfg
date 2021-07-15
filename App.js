@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 
-import { Router } from './components/router';
+import { Router } from "./components/router";
 
 export default function App() {
-  return <Router />
+  return <Router />;
 }

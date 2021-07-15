@@ -7,7 +7,12 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Dimensions,
 } from "react-native";
+
+const width = Dimensions.get("window").width;
 
 export function Signup({ navigation }) {
   const animation = useRef();
@@ -49,61 +54,64 @@ export function Signup({ navigation }) {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <Text style={styles.title}>sign up</Text>
-      <TextInput
-        value={email}
-        onChangeText={setEmail}
-        placeholder="E-mail"
-        style={styles.input}
-      />
-      <TextInput
-        value={name}
-        onChangeText={setName}
-        placeholder="Name"
-        style={styles.input}
-      />
-      <TextInput
-        value={firstName}
-        onChangeText={setFirstName}
-        placeholder="First name"
-        style={styles.input}
-      />
-      <TextInput
-        value={company}
-        onChangeText={setCompany}
-        placeholder="Company"
-        style={styles.input}
-      />
-      <TextInput
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Password"
-        style={styles.input}
-        secureTextEntry
-      />
-      <TextInput
-        placeholder="Repeat password"
-        style={styles.input}
-        secureTextEntry
-        value={passwordConfirm}
-        onChangeText={setPasswordConfirm}
-      />
-      <TouchableOpacity style={styles.button} onPress={onSignUp}>
-        <Text style={styles.buttonText}>Sign up</Text>
-      </TouchableOpacity>
-      <View
-        style={{
-          flexDirection: "row",
-          marginTop: 40,
-          alignSelf: "center",
-        }}
-      >
-        <Text style={styles.signupText}>Already have an account?</Text>
-        <TouchableOpacity onPress={onNavigateSignin}>
-          <Text style={styles.signup}>Sign in</Text>
-        </TouchableOpacity>
-      </View>
-      <StatusBar style="auto" />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <Text style={styles.title}>sign up</Text>
+          <TextInput
+            value={email}
+            onChangeText={setEmail}
+            placeholder="E-mail"
+            style={styles.input}
+          />
+          <TextInput
+            value={name}
+            onChangeText={setName}
+            placeholder="Name"
+            style={styles.input}
+          />
+          <TextInput
+            value={firstName}
+            onChangeText={setFirstName}
+            placeholder="First name"
+            style={styles.input}
+          />
+          <TextInput
+            value={company}
+            onChangeText={setCompany}
+            placeholder="Company"
+            style={styles.input}
+          />
+          <TextInput
+            value={password}
+            onChangeText={setPassword}
+            placeholder="Password"
+            style={styles.input}
+            secureTextEntry
+          />
+          <TextInput
+            placeholder="Repeat password"
+            style={styles.input}
+            secureTextEntry
+            value={passwordConfirm}
+            onChangeText={setPasswordConfirm}
+          />
+          <TouchableOpacity style={styles.button} onPress={onSignUp}>
+            <Text style={styles.buttonText}>Sign up</Text>
+          </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: "row",
+              marginTop: 40,
+              alignSelf: "center",
+            }}
+          >
+            <Text style={styles.signupText}>Already have an account?</Text>
+            <TouchableOpacity onPress={onNavigateSignin}>
+              <Text style={styles.signup}>Sign in</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 }
@@ -125,7 +133,7 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   input: {
-    width: "100%",
+    width: width - 30,
     height: 44,
     backgroundColor: "#ffffff",
     borderRadius: 4,
@@ -135,12 +143,13 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#CB4437",
-    width: "100%",
+    width: width - 30,
     height: 44,
     borderRadius: 4,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 32,
+    alignSelf: "center",
   },
   buttonText: {
     color: "#ffffff",
