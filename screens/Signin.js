@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useRef } from 'react';
 import LottieView from 'lottie-react-native';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
-export function Signin() {
+export function Signin({ navigation }) {
   const animation = useRef();
 
   useEffect(() => {
@@ -11,6 +12,10 @@ export function Signin() {
       animation.current.play();
     }
   }, [animation.current]);
+
+  function onNavigateSignup() {
+    navigation.navigate('Signup');
+  }
 
   return (
     <View style={styles.container}>
@@ -22,7 +27,7 @@ export function Signin() {
               height: 400,
               backgroundColor: '#000000',
             }}
-            source={require('./animations/login.json')}
+            source={require('../animations/login.json')}
           />
         <TextInput placeholder="E-mail" style={styles.input} />
         <TextInput placeholder="Password" style={styles.input} secureTextEntry />
@@ -31,7 +36,7 @@ export function Signin() {
         </TouchableOpacity>
         <View style={{ flexDirection: 'row', marginTop: 'auto' }}>
           <Text style={styles.signupText}>Don't you have an account?</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={onNavigateSignup}>
             <Text style={styles.signup}>Sign up</Text>
           </TouchableOpacity>
         </View>
