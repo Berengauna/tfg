@@ -45,7 +45,10 @@ export function Signup({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <Text style={styles.title}>sign up</Text>
       <TextInput
         value={email}
@@ -88,14 +91,20 @@ export function Signup({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={onSignUp}>
         <Text style={styles.buttonText}>Sign up</Text>
       </TouchableOpacity>
-      <View style={{ flexDirection: "row", marginTop: "auto" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          marginTop: 40,
+          alignSelf: "center",
+        }}
+      >
         <Text style={styles.signupText}>Already have an account?</Text>
         <TouchableOpacity onPress={onNavigateSignin}>
           <Text style={styles.signup}>Sign in</Text>
         </TouchableOpacity>
       </View>
       <StatusBar style="auto" />
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

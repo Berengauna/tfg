@@ -1,7 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef } from "react";
 import LottieView from "lottie-react-native";
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  KeyboardAvoidingView,
+} from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 export function Signin({ navigation }) {
@@ -18,7 +24,10 @@ export function Signin({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <Text style={styles.title}>Work shift</Text>
       <LottieView
         ref={animation}
@@ -36,7 +45,11 @@ export function Signin({ navigation }) {
         <Text style={styles.buttonText}>Sign in</Text>
       </TouchableOpacity>
       <View
-        style={{ flexDirection: "row", marginTop: "auto", alignSelf: "center" }}
+        style={{
+          flexDirection: "row",
+          marginTop: 40,
+          alignSelf: "center",
+        }}
       >
         <Text style={styles.signupText}>Don't you have an account?</Text>
         <TouchableOpacity onPress={onNavigateSignup}>
@@ -44,7 +57,7 @@ export function Signin({ navigation }) {
         </TouchableOpacity>
       </View>
       <StatusBar style="auto" />
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
