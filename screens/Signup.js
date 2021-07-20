@@ -1,5 +1,5 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 import {
   StyleSheet,
   Text,
@@ -34,7 +34,7 @@ export function Signup({ navigation }) {
     navigation.navigate("Signin");
   }
 
-  function onSignUp() {
+  async function onSignUp() {
     if (password !== passwordConfirm) {
       return;
     }
@@ -45,7 +45,15 @@ export function Signup({ navigation }) {
       password.length &&
       company.length
     ) {
-      navigation.navigate("Home");
+      // navigation.navigate("Home");
+
+      const xmls = "";
+
+      await axios.post(
+        "https://api.businesscentral.dynamics.com/v2.0/a86d2c8a-6032-4e60-a2d5-95838d3800cc/Sandbox/WS/Rutland%20Cycling%20Ltd.%20TEST/Page/WorkShiftEmployeeWS",
+        xmls,
+        { headers: { "Content-Type": "text/xml" } }
+      );
     }
   }
 
@@ -62,6 +70,7 @@ export function Signup({ navigation }) {
             onChangeText={setEmail}
             placeholder="E-mail"
             style={styles.input}
+            autoCapitalize="none"
           />
           <TextInput
             value={name}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import LottieView from "lottie-react-native";
 import {
   StyleSheet,
@@ -12,6 +12,9 @@ import {
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 export function Signin({ navigation }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const animation = useRef();
 
   useEffect(() => {
@@ -22,6 +25,10 @@ export function Signin({ navigation }) {
 
   function onNavigateSignup() {
     navigation.navigate("Signup");
+  }
+
+  function signIn() {
+    navigation.replace("Home");
   }
 
   return (
@@ -42,13 +49,21 @@ export function Signin({ navigation }) {
             }}
             source={require("../animations/login.json")}
           />
-          <TextInput placeholder="E-mail" style={styles.input} />
+          <TextInput
+            placeholder="E-mail"
+            style={styles.input}
+            autoCapitalize="none"
+            value={email}
+            onChangeText={setEmail}
+          />
           <TextInput
             placeholder="Password"
             style={styles.input}
             secureTextEntry
+            value={password}
+            onChangeText={setPassword}
           />
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={signIn}>
             <Text style={styles.buttonText}>Sign in</Text>
           </TouchableOpacity>
           <View
