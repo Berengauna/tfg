@@ -37,7 +37,6 @@ export function Signup({ navigation }) {
   }
 
   async function onSignUp() {
-    console.log({ password, passwordConfirm, email, company, name });
     if (password !== passwordConfirm) {
       return;
     }

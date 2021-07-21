@@ -35,17 +35,6 @@ export function Home({ navigation, route }) {
     })();
   }, []);
 
-  // useEffect(() => {
-  //   if (location) {
-  //     console.log(
-  //       `http://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&sensor=true`
-  //     );
-  //     fetch(
-  //       `http://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&sensor=true`
-  //     ).then((res) => console.log(res));
-  //   }
-  // }, [location]);
-
   function onSign() {
     if (!dayTime || !startOrEnd) {
       setErrorMsg("Please select entrance/exit and reason");
@@ -77,7 +66,8 @@ export function Home({ navigation, route }) {
     })
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
+        setErrorMsg(null);
+        alert("Successfully signed.");
       });
   }
 
@@ -172,7 +162,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   error: {
-    color: "#CB4437",
+    color: "red",
+    fontSize: 18,
     textAlign: "center",
   },
 });
