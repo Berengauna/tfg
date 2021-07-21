@@ -72,7 +72,12 @@ export function Home({ navigation, route }) {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{
+        alignItems: "center",
+      }}
+    >
       {user && <Text style={styles.title}>Welcome, {user.E_mail}</Text>}
       <Text style={styles.title}>{new Date().toLocaleString()}</Text>
       <View style={{ marginTop: 40 }}>
@@ -117,7 +122,6 @@ export function Home({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     padding: 14,
     paddingTop: 40,
     backgroundColor: "#000000",
