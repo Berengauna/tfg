@@ -32,6 +32,14 @@ export function Signup({ navigation }) {
     }
   }, [animation.current]);
 
+  useEffect(() => {
+    if (password !== passwordConfirm) {
+      setError("Passwords don't match");
+    } else {
+      setError(null);
+    }
+  }, [password, passwordConfirm]);
+
   function onNavigateSignin() {
     navigation.navigate("Signin");
   }
@@ -114,7 +122,7 @@ export function Signup({ navigation }) {
             value={passwordConfirm}
             onChangeText={setPasswordConfirm}
           />
-          {error && <Text style={styles.error}>Invalid credentials</Text>}
+          {error && <Text style={styles.error}>{error}</Text>}
           <TouchableOpacity style={styles.button} onPress={onSignUp}>
             <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
