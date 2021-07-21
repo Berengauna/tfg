@@ -60,6 +60,7 @@ export function Signup({ navigation }) {
       })
         .then((response) => response.json())
         .then((json) => {
+          console.log(json);
           if (json && !json.error) {
             setError(null);
             navigation.replace("Home", {
@@ -105,12 +106,12 @@ export function Signup({ navigation }) {
             onChangeText={setPassword}
             placeholder="Password"
             style={styles.input}
-            // secureTextEntry
+            secureTextEntry
           />
           <TextInput
             placeholder="Repeat password"
             style={styles.input}
-            // secureTextEntry
+            secureTextEntry
             value={passwordConfirm}
             onChangeText={setPasswordConfirm}
           />
