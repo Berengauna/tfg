@@ -60,7 +60,6 @@ export function Signup({ navigation }) {
       })
         .then((response) => response.json())
         .then((json) => {
-          console.log(json);
           if (json && !json.error) {
             setError(null);
             navigation.replace("Home", {
