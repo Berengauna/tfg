@@ -15,8 +15,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { token } from "../utils";
 
 export function Signin({ navigation }) {
-  const [email, setEmail] = useState("antonio");
-  const [password, setPassword] = useState("wjenferun");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
   const animation = useRef();
