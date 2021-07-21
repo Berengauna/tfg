@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { StyleSheet, View, Dimensions, Text } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import { Picker } from "@react-native-picker/picker";
 import { token } from "../utils";
 
@@ -72,7 +72,7 @@ export function Home({ navigation, route }) {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {user && <Text style={styles.title}>Welcome, {user.E_mail}</Text>}
       <Text style={styles.title}>{new Date().toLocaleString()}</Text>
       <View style={{ marginTop: 40 }}>
@@ -110,7 +110,7 @@ export function Home({ navigation, route }) {
           <Text style={styles.buttonText}>Sign</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -133,8 +133,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 4,
     marginBottom: 25,
-    borderWidth: 5,
-    borderColor: "red",
     marginTop: 24,
     color: "#ffffff",
   },
