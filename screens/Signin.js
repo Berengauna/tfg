@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 import LottieView from "lottie-react-native";
 import {
   StyleSheet,
@@ -11,9 +12,12 @@ import {
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
+import { token } from "../utils";
+
 export function Signin({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("antonio");
+  const [password, setPassword] = useState("wjenferun");
+  const [error, setError] = useState(null);
 
   const animation = useRef();
 
@@ -27,8 +31,29 @@ export function Signin({ navigation }) {
     navigation.navigate("Signup");
   }
 
-  function signIn() {
-    navigation.replace("Home");
+  async function signIn() {
+    const url = `https://api.businesscentral.dynamics.com/v2.0/a86d2c8a-6032-4e60-a2d5-95838d3800cc/Sandbox/ODataV4/Company('Rutland%20Cycling%20Ltd.%20TEST')/WorkShiftEmployeeWS?$filter=E_mail eq '${email}' and Password eq '${password}'`;
+
+    let headers = new Headers();
+
+    //headers.append('Content-Type', 'text/json');
+    headers.append("Authorization", "Basic" + ` ${token}`);
+
+    fetch(url, {
+      method: "GET",
+      headers,
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        if (json && json.value && json.value.length) {
+          setError(null);
+          navigation.replace("Home", {
+            user: json.value[0],
+          });
+        } else {
+          setError("Invalid credentials");
+        }
+      });
   }
 
   return (
@@ -63,6 +88,7 @@ export function Signin({ navigation }) {
             value={password}
             onChangeText={setPassword}
           />
+          {error && <Text style={styles.error}>Invalid credentials</Text>}
           <TouchableOpacity style={styles.button} onPress={signIn}>
             <Text style={styles.buttonText}>Sign in</Text>
           </TouchableOpacity>
@@ -128,5 +154,10 @@ const styles = StyleSheet.create({
   signup: {
     color: "#CB4437",
     fontSize: 15,
+  },
+  error: {
+    color: "#CB4437",
+    fontSize: 15,
+    alignSelf: "center",
   },
 });

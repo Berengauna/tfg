@@ -11,6 +11,7 @@ import {
   Keyboard,
   Dimensions,
 } from "react-native";
+import { token } from "../utils";
 
 const width = Dimensions.get("window").width;
 
@@ -19,10 +20,11 @@ export function Signup({ navigation }) {
 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [firstName, setFirstName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [company, setCompany] = useState("");
+
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (animation.current) {
@@ -35,25 +37,39 @@ export function Signup({ navigation }) {
   }
 
   async function onSignUp() {
+    console.log({ password, passwordConfirm, email, company, name });
     if (password !== passwordConfirm) {
       return;
     }
-    if (
-      email.length &&
-      name.length &&
-      firstName.length &&
-      password.length &&
-      company.length
-    ) {
-      // navigation.navigate("Home");
 
-      const xmls = "";
+    if (email.length && name.length && password.length && company.length) {
+      const url = `https://api.businesscentral.dynamics.com/v2.0/a86d2c8a-6032-4e60-a2d5-95838d3800cc/Sandbox/ODataV4/Company('Rutland%20Cycling%20Ltd.%20TEST')/WorkShiftEmployeeWS`;
 
-      await axios.post(
-        "https://api.businesscentral.dynamics.com/v2.0/a86d2c8a-6032-4e60-a2d5-95838d3800cc/Sandbox/WS/Rutland%20Cycling%20Ltd.%20TEST/Page/WorkShiftEmployeeWS",
-        xmls,
-        { headers: { "Content-Type": "text/xml" } }
-      );
+      let headers = new Headers();
+      headers.append("Authorization", "Basic" + ` ${token}`);
+      headers.append("Content-Type", "application/json");
+
+      fetch(url, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          E_mail: email,
+          Password: password,
+          Name: name,
+          Company: company,
+        }),
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          if (json && !json.error) {
+            setError(null);
+            navigation.replace("Home", {
+              user: { ...json },
+            });
+          } else {
+            setError("Invalid credentials");
+          }
+        });
     }
   }
 
@@ -71,17 +87,12 @@ export function Signup({ navigation }) {
             placeholder="E-mail"
             style={styles.input}
             autoCapitalize="none"
+            type="email"
           />
           <TextInput
             value={name}
             onChangeText={setName}
             placeholder="Name"
-            style={styles.input}
-          />
-          <TextInput
-            value={firstName}
-            onChangeText={setFirstName}
-            placeholder="First name"
             style={styles.input}
           />
           <TextInput
@@ -95,15 +106,16 @@ export function Signup({ navigation }) {
             onChangeText={setPassword}
             placeholder="Password"
             style={styles.input}
-            secureTextEntry
+            // secureTextEntry
           />
           <TextInput
             placeholder="Repeat password"
             style={styles.input}
-            secureTextEntry
+            // secureTextEntry
             value={passwordConfirm}
             onChangeText={setPasswordConfirm}
           />
+          {error && <Text style={styles.error}>Invalid credentials</Text>}
           <TouchableOpacity style={styles.button} onPress={onSignUp}>
             <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
@@ -172,5 +184,10 @@ const styles = StyleSheet.create({
   signup: {
     color: "#CB4437",
     fontSize: 15,
+  },
+  error: {
+    color: "#CB4437",
+    fontSize: 15,
+    alignSelf: "center",
   },
 });
