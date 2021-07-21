@@ -47,6 +47,11 @@ export function Home({ navigation, route }) {
   // }, [location]);
 
   function onSign() {
+    if (!dayTime || !startOrEnd) {
+      setErrorMsg("Please select entrance/exit and reason");
+      return;
+    }
+
     const { E_mail } = user;
 
     const url =
@@ -63,14 +68,11 @@ export function Home({ navigation, route }) {
       headers,
       body: JSON.stringify({
         Employee: E_mail,
-        Date2: new Date().toLocaleDateString(),
-        Hour2: new Date(
-          hour.setHours(hour.getHours() + 2)
-        ).toLocaleTimeString(),
-        "Entrance/Exit": startOrEnd,
+        Date: new Date().toLocaleDateString(),
+        Hour: new Date(hour.setHours(hour.getHours() + 2)).toLocaleTimeString(),
+        Entrance_Exit: startOrEnd,
         Type: dayTime,
-        Location: "Alicante",
-        // Location: `https://www.google.es/maps/place/40%C2%B026'07.7%22N+3%C2%B041'13.7%22W/@40.4354724,-3.689332,17z/data=!3m1!4b1!4m5!3m4!1s0x0:0x0!8m2!3d40.4354683!4d-3.6871433`,
+        Location: `http://www.google.com/maps/place/${location.coords.latitude},${location.coords.longitude}`,
       }),
     })
       .then((response) => response.json())
@@ -82,29 +84,42 @@ export function Home({ navigation, route }) {
   return (
     <View style={styles.container}>
       {user && <Text style={styles.title}>Welcome, {user.E_mail}</Text>}
-      <Picker
-        selectedValue={startOrEnd}
-        style={styles.input}
-        itemStyle={{ height: 200, backgroundColor: "white" }}
-        onValueChange={(itemValue) => setStartOrEnd(itemValue)}
-      >
-        <Picker.Item label="Entrada" value="entrada" />
-        <Picker.Item label="Salida" value="salida" />
-      </Picker>
-      <Picker
-        selectedValue={dayTime}
-        style={styles.input}
-        onValueChange={(itemValue) => setDayTime(itemValue)}
-      >
-        <Picker.Item label="Almuerzo" value="almuerzo" />
-        <Picker.Item label="Comida" value="Comida" />
-        <Picker.Item label="Jornada" value="Jornada" />
-        <Picker.Item label="Médico" value="medico" />
-      </Picker>
+      <Text style={styles.title}>{new Date().toLocaleString()}</Text>
+      <View style={{ marginTop: 40 }}>
+        <Picker
+          selectedValue={startOrEnd}
+          style={styles.input}
+          itemStyle={{ height: 200, backgroundColor: "white" }}
+          onValueChange={(itemValue) => setStartOrEnd(itemValue)}
+        >
+          <Picker.Item
+            style={{ backgroundColor: "white" }}
+            label="Choose entrance / exit"
+            value={null}
+          />
+          <Picker.Item label="Entrance" value="Entrance" />
+          <Picker.Item label="Exit" value="Exit" />
+        </Picker>
+        <Picker
+          selectedValue={dayTime}
+          style={styles.input}
+          onValueChange={(itemValue) => setDayTime(itemValue)}
+        >
+          <Picker.Item label="Choose reason" value={null} />
+          <Picker.Item label="Breakfast" value="Breakfast" />
+          <Picker.Item label="Lunch" value="Lunch" />
+          <Picker.Item label="Work" value="Work" />
+          <Picker.Item label="Sickness" value="Sickness" />
+          <Picker.Item label="Other" value="Other" />
+        </Picker>
+      </View>
 
-      <TouchableOpacity style={styles.button} onPress={onSign}>
-        <Text style={styles.buttonText}>Sign</Text>
-      </TouchableOpacity>
+      <View style={{ marginTop: "auto", marginBottom: "auto" }}>
+        {errorMsg && <Text style={styles.error}>{errorMsg}</Text>}
+        <TouchableOpacity style={styles.button} onPress={onSign}>
+          <Text style={styles.buttonText}>Sign</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -115,21 +130,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 14,
     paddingTop: 40,
+    backgroundColor: "#000000",
   },
   title: {
     fontSize: 20,
     textAlign: "center",
     margin: 10,
-    color: "#000000",
+    color: "#ffffff",
   },
   input: {
     width: width - 30,
     backgroundColor: "#ffffff",
     borderRadius: 4,
     marginBottom: 25,
-    borderWidth: 1,
-    borderColor: "#ffffff",
+    borderWidth: 5,
+    borderColor: "red",
     marginTop: 24,
+    color: "#ffffff",
   },
   button: {
     backgroundColor: "#CB4437",
@@ -153,5 +170,9 @@ const styles = StyleSheet.create({
   signup: {
     color: "#CB4437",
     fontSize: 15,
+  },
+  error: {
+    color: "#CB4437",
+    textAlign: "center",
   },
 });

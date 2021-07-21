@@ -45,6 +45,7 @@ export function Signin({ navigation }) {
     })
       .then((response) => response.json())
       .then((json) => {
+        console.log(json);
         if (json && json.value && json.value.length) {
           setError(null);
           navigation.replace("Home", {
